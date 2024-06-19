@@ -1,0 +1,27 @@
+- name: Copy the mongo.repo file
+  ansible.builtin.copy:
+    src: mongo.repo
+    dest: /etc/yum.repos.d/mongo.repo
+
+- name: Install MongoDB client
+  ansible.builtin.package:
+    name: mongodb-org-shell
+    state: present
+
+- name: Get entries count
+  ansible.builtin.command: mongo --host mongodb.mechanoidstore.online --quiet --eval 'db = db.getSiblingDB("catalogue"); db.products.count()'
+  register: entries_count
+  when: component == "catalogue"
+
+- name: Get entries count
+  ansible.builtin.command: mongo --host mongodb.mechanoidstore.online --quiet --eval 'db = db.getSiblingDB("users"); db.users.count()'
+  register: entries_count
+  when: component == "user"
+
+- name: print entries count
+  ansible.builtin.debug:
+    msg: "Count: {{entries_count.stdout}}"
+
+- name: "Load {{component}} Schema to MongoDB"
+  ansible.builtin.command: "mongo --host mongodb.mechanoidstore.online < /app/schema/{{component}}.js"
+  when: product_count.stdout == "0"
