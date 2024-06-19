@@ -20,7 +20,13 @@
 
 - name: print entries count
   ansible.builtin.debug:
-    msg: "Count: {{entries_count.stdout}}"
+    msg: "Count: {{products_count.stdout}}"
+  when: component == "catalogue"
+
+- name: print entries count
+  ansible.builtin.debug:
+    msg: "Count: {{users_count.stdout}}"
+  when: component == "user"
 
 - name: "Load {{component}} Schema to MongoDB"
   ansible.builtin.shell: "mongo --host mongodb.mechanoidstore.online < /app/schema/{{component}}.js"
