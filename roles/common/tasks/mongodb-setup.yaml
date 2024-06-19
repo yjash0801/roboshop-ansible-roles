@@ -28,12 +28,12 @@
     msg: "Count: {{users_count.stdout}}"
   when: component == "user"
 
-- name: "Load {{component}} Schema to MongoDB"
+- name: "Load catalogue Schema to MongoDB"
   ansible.builtin.shell: "mongo --host mongodb.mechanoidstore.online < /app/schema/{{component}}.js"
   when: products_count.stdout == "0" and component == "catalogue"
   ignore_errors: true
 
-- name: "Load {{component}} Schema to MongoDB"
+- name: "Load user Schema to MongoDB"
   ansible.builtin.shell: "mongo --host mongodb.mechanoidstore.online < /app/schema/{{component}}.js"
-  when: users_count.stdout == "0" component == "user"
+  when: users_count.stdout == "0" and component == "user"
   ignore_errors: true
