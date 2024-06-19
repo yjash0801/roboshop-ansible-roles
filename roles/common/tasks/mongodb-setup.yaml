@@ -8,22 +8,22 @@
     name: mongodb-org-shell
     state: present
 
-- name: Get entries count
+- name: Get entries catalogue count
   ansible.builtin.shell: mongo --host mongodb.mechanoidstore.online --quiet --eval 'db = db.getSiblingDB("catalogue"); db.products.count()'
   register: products_count
   when: component == "catalogue"
 
-- name: Get entries count
+- name: Get entries user count
   ansible.builtin.shell: mongo --host mongodb.mechanoidstore.online --quiet --eval 'db = db.getSiblingDB("users"); db.users.count()'
   register: users_count
   when: component == "user"
 
-- name: print entries count
+- name: print entries catalogue count
   ansible.builtin.debug:
     msg: "Count: {{products_count.stdout}}"
   when: component == "catalogue"
 
-- name: print entries count
+- name: print entries user count
   ansible.builtin.debug:
     msg: "Count: {{users_count.stdout}}"
   when: component == "user"
