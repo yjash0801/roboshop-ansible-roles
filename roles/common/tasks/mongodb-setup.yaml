@@ -9,13 +9,13 @@
     state: present
 
 - name: Get entries count
-  ansible.builtin.command: mongo --host mongodb.mechanoidstore.online --quiet --eval 'db = db.getSiblingDB("catalogue"); db.products.count()'
-  register: entries_count
+  ansible.builtin.shell: mongo --host mongodb.mechanoidstore.online --quiet --eval 'db = db.getSiblingDB("catalogue"); db.products.count()'
+  register: products_count
   when: component == "catalogue"
 
 - name: Get entries count
-  ansible.builtin.command: mongo --host mongodb.mechanoidstore.online --quiet --eval 'db = db.getSiblingDB("users"); db.users.count()'
-  register: entries_count
+  ansible.builtin.shell: mongo --host mongodb.mechanoidstore.online --quiet --eval 'db = db.getSiblingDB("users"); db.users.count()'
+  register: users_count
   when: component == "user"
 
 - name: print entries count
@@ -23,5 +23,11 @@
     msg: "Count: {{entries_count.stdout}}"
 
 - name: "Load {{component}} Schema to MongoDB"
-  ansible.builtin.command: "mongo --host mongodb.mechanoidstore.online < /app/schema/{{component}}.js"
-  when: product_count.stdout == "0"
+  ansible.builtin.shell: "mongo --host mongodb.mechanoidstore.online < /app/schema/{{component}}.js"
+  when: products_count.stdout == "0" and component == "catalogue"
+  ignore_errors: true
+
+- name: "Load {{component}} Schema to MongoDB"
+  ansible.builtin.shell: "mongo --host mongodb.mechanoidstore.online < /app/schema/{{component}}.js"
+  when: users_count.stdout == "0" component == "user"
+  ignore_errors: true
