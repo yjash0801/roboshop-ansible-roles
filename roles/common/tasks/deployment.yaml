@@ -4,7 +4,7 @@
   ansible.builtin.service:
     name: "{{component}}"
 
-- name: "remove old application code"
+- name: remove old application code
   tags:
   - deployment
   ansible.builtin.files:
