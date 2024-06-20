@@ -8,3 +8,8 @@
   ansible.builtin.dnf:
     name: nodejs
     state: present
+
+- name: Install dependencies
+  ansible.builtin.command: npm install
+  args:
+    chdir: /app
