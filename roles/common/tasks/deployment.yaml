@@ -7,7 +7,7 @@
 - name: remove old application code
   tags:
   - deployment
-  ansible.builtin.files:
+  ansible.builtin.file:
     path: /app
     state: absent
 
