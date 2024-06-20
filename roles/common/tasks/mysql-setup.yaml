@@ -1,0 +1,16 @@
+- name: Install MySQL client
+  ansible.builtin.dnf:
+    name: mysql
+    state: present
+
+- name: Get schema data from MySQL
+  ansible.builtin.shell: mysql -h {{MYSQL_HOST}} -uroot -p{{mysql_password}} -sN -e "SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='cities'"
+  register: Schema
+
+- name: Print the schema data
+  ansible.builtin.debug:
+    msg: "Schema output: {{Schema.stdout}}"
+
+- name: Load the data to MySQL
+  ansible.builtin.shell: mysql -h {{MYSQL_HOST}} -uroot -p{{mysql_password}} < /app/schema/shipping.sql
+  when: Schema.stdout != "1"
