@@ -16,7 +16,7 @@
     enabled: yes
   
 - name: RabbitMQ username / password creation
-  ansible.builtin.command: rabbitmqctl add_user roboshop roboshop123
+  ansible.builtin.command: "rabbitmqctl add_user {{rmq_user}} {{rmq_password}}"
 
 - name: Set permissions
   ansible.builtin.command: rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*"
