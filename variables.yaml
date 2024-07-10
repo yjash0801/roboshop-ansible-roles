@@ -1,0 +1,10 @@
+MONGODB_HOST: mongodb.mechanoidstore.online
+CATALOGUE_HOST: catalogue.mechanoidstore.online
+REDIS_HOST: redis.mechanoidstore.online
+USER_HOST: user.mechanoidstore.online
+CART_HOST: cart.mechanoidstore.online
+SHIPPING_HOST: shipping.mechanoidstore.online
+PAYMENT_HOST: payment.mechanoidstore.online
+MYSQL_HOST: mysql.mechanoidstore.online
+RABBITMQ_HOST: rabbitmq.mechanoidstore.online
+DISPATCH_HOST: dispatch.mechanoidstore.online

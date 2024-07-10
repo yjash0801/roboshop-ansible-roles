@@ -1,0 +1,14 @@
+- name: App setup
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: app-setup
+
+- name: Go install
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: go
+
+- name: Systemd service
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: systemd
